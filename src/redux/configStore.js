@@ -1,19 +1,21 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import createMiddlewareSaga from 'redux-saga';
-// import { rootSaga } from './sagas/rootSaga';
+import LoadingReducer from './reducers/LoadingReducer';
 
 // middleware saga
+import createMiddlewareSaga from 'redux-saga';
+import { rootSaga } from './sagas/rootSaga';
 const middlewareSaga = createMiddlewareSaga();
-const rootReducer = combineReducers({
 
+const rootReducer = combineReducers({
+    LoadingReducer
 });
 
 const store = createStore(
     rootReducer,
-    // applyMiddleware(middlewareSaga)
+    applyMiddleware(middlewareSaga)
     );
 
 // Call Saga
-// middlewareSaga.run(rootSaga);
+middlewareSaga.run(rootSaga);
 
 export default store;
