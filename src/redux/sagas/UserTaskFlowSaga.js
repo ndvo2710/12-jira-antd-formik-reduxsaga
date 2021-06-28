@@ -1,9 +1,9 @@
 import Axios from 'axios';
-import { call, delay, fork, take, takeEvery, takeLatest, put } from 'redux-saga/effects';
+import { call, delay, fork, take, takeEvery, takeLatest, put, select } from 'redux-saga/effects';
 import { taskFlowService } from '../../services/TaskFlowServices';
-import { ACCESS_TOKEN, USER_LOGIN } from '../../util/constants/settingSystem';
+import { ACCESS_TOKEN_LC_KEY, USER_LOGIN_LC_KEY } from '../../util/constants/settingSystem';
 import { DISPLAY_LOADING, HIDE_LOADING } from '../constants/LoadingConst';
-import { USER_SIGNIN_API } from '../constants/Login/LoginTaskFlow';
+import { USER_LOGIN, USER_SIGNIN_API } from '../constants/Login/LoginTaskFlow';
 
 // Manage Action Saga
 
@@ -20,11 +20,19 @@ function* signinSaga(action) {
         const { data, status } = yield call(() => taskFlowService.signInApi(action.userLogin));
 
         //Save to localStorage after successfully signed in
-        localStorage.setItem(ACCESS_TOKEN, data.content.accessToken);
-        localStorage.setItem(USER_LOGIN,JSON.stringify(data.content));
+        localStorage.setItem(ACCESS_TOKEN_LC_KEY, data.content.accessToken);
+        localStorage.setItem(USER_LOGIN_LC_KEY,JSON.stringify(data.content));
 
         console.log("Sucessfully Logged In!");
-        console.log(data);
+        // console.log(data);
+        yield put({
+            type: USER_LOGIN,
+            userLogin: data.content
+        })
+
+        let history = yield select(state=> state.HistoryReducer.history)
+
+        history.push('/home');
 
 
     }catch(err){ 

@@ -2,8 +2,8 @@ export const DOMAIN = 'http://svcy.myclass.vn/api';
 
 export const DOMAIN_TASKFLOW = 'http://casestudy.cyberlearn.vn/api';
 
-export const ACCESS_TOKEN = 'ACCESS_TOKEN';
-export const USER_LOGIN = 'USER_LOGIN';
+export const ACCESS_TOKEN_LC_KEY = 'ACCESS_TOKEN';
+export const USER_LOGIN_LC_KEY = 'USER_LOGIN';
 
 export const STATUS_CODE = {
     SUCCESS : 200,

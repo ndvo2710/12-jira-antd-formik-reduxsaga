@@ -57,9 +57,10 @@ const LoginTaskFlowWithFormik =  withFormik({
     }),
     handleSubmit: ({email, password}, {props, setSubmitting }) => {
         // console.log(values);
+        setSubmitting(true);
         props.dispatch(signInTaskFlowAction(email, password));
     },
-    displayName: 'Login TaskFlow',
+    displayName: 'LoginTaskFlow',
   })(Login);
 
 
