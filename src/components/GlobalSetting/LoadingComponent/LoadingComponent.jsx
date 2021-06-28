@@ -16,6 +16,6 @@ export default function LoadingComponent() {
             </div>
         )
     } else {
-        return ''
+        return <></>
     }
 }
