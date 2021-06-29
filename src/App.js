@@ -10,6 +10,9 @@ import { HomeTemplate } from './templates/home/HomeTemplate';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { ADD_HISTORY } from './redux/constants/Login/LoginTaskFlow';
+import { TaskFlowTemplate } from './templates/taskflow/TaskFlowTemplate';
+import index from './pages/TaskFlow';
+import CreateTask from './components/TaskFlow/Task/CreateTask';
 
 function App() {
     const history = useHistory();
@@ -26,6 +29,8 @@ function App() {
                 <HomeTemplate exact path='/about' Component={About} />
                 <HomeTemplate exact path='/contact' Component={Contact} />
                 <UserLoginTemplate exact path='/login' Component={Login} />
+                <TaskFlowTemplate exact path='/task' Component={index}/>
+                <TaskFlowTemplate exact path='/createtask' Component={CreateTask}/>
             </Switch>
 
         </>
