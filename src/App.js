@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { ADD_HISTORY } from './redux/constants/Login/LoginTaskFlow';
 import { TaskFlowTemplate } from './templates/taskflow/TaskFlowTemplate';
-import index from './pages/TaskFlow';
+import index from './pages/JiraClone/TaskFlow';
 import CreateProject from './components/TaskFlow/Project/CreateProject';
 
 function App() {
@@ -19,7 +19,10 @@ function App() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch({ type: ADD_HISTORY, history: history });
+        return () => {}
+
     }, [])
+
     return (
         <>
             <LoadingComponent />

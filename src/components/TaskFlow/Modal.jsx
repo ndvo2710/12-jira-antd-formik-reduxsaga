@@ -115,8 +115,8 @@ export default function Modal() {
                                 <div className="col-4">
                                     <div className="status">
                                         <h6>STATUS</h6>
-                                        <select className="custom-select">
-                                            <option value={""} selected>SELECTED FOR DEVELOPMENT</option>
+                                        <select defaultValue={'DEFAULT'} className="custom-select">
+                                            <option value="DEFAULT" disabled>SELECTED FOR DEVELOPMENT</option>
                                             <option value={1}>One</option>
                                             <option value={2}>Two</option>
                                             <option value={3}>Three</option>

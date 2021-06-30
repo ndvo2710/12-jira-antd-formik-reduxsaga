@@ -6,7 +6,7 @@ export default function Home() {
     return (
         <div>
             {userLogin?.name}
-            <img src={userLogin?.avatar} />
+            <img src={userLogin?.avatar} alt={userLogin?.avatar}/>
         </div>
     )
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 // Demo: https://www.tiny.cloud/docs/demo/
 // Docs: https://www.tiny.cloud/docs/integrations/react/#tinymcereactintegrationquickstartguide
@@ -70,7 +71,8 @@ function CreateProject(props) {
                     />
                 </div>
                 <div className="form-group">
-                    <select name="categoryId" className="form-control">
+                    <select defaultValue={'DEFAULT'}  name="categoryId" className="form-control">
+                    <option value="DEFAULT" disabled>Choose a project ...</option>
                         {arrProjectCategory.map((item, index) => {
                             return <option value={item.id} key={index}>{item.projectCategoryName}</option>
                         })}
