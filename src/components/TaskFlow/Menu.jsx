@@ -17,7 +17,7 @@ export default function Menu() {
             <div className="control">
                 <div>
                     <i className="fa fa-credit-card mr-1" />
-                    <NavLink className="text-dark" activeStyle={{ color: 'blue' }} to="/cyberbugs" activeClassName="active font-weight-bold text-primary" >Dashboard</NavLink>
+                    <NavLink className="text-dark" activeStyle={{ color: 'blue' }} to="/taskflow" activeClassName="active font-weight-bold text-primary" >Dashboard</NavLink>
                 </div>
                 <div>
                 <i className="fa fa-cog mr-1" /> 

@@ -10,6 +10,13 @@ class TaskFlowService {
             data: userLogin
         })
     }
+
+    getAllProjectCategory = () => {
+        return Axios({
+            url:`${DOMAIN_TASKFLOW}/ProjectCategory`,
+            method: 'GET'
+        })
+    }
 }
 
 export const taskFlowService = new TaskFlowService();
