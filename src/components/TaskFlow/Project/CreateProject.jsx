@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-str */
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 // Demo: https://www.tiny.cloud/docs/demo/
@@ -9,10 +10,11 @@ import { connect, useSelector, useDispatch } from 'react-redux'
 import { GET_ALL_PROJECT_CATEGORY_SAGA } from '../../../redux/constants/TaskFlowConst';
 
 function CreateProject(props) {
-    const arrProjectCategory = useSelector(state => state.ProjectCategoryReducer.arrProjectCategory);
+    // const arrProjectCategory = useSelector(state => state.ProjectCategoryReducer.arrProjectCategory);
+    const { arrProjectCategory } = props;
     const dispatch = useDispatch();
 
-    console.log('Result', arrProjectCategory)
+    console.log('arrProjectCategory', arrProjectCategory)
     const {
         values,
         touched,
@@ -20,6 +22,8 @@ function CreateProject(props) {
         handleChange,
         handleBlur,
         handleSubmit,
+        setValues,
+        setFieldValue,
     } = props;
 
 
@@ -38,13 +42,14 @@ function CreateProject(props) {
     const handleEditorChange = (content, editor) => {
         console.log('Content was updated:', content);
         console.log('Content was updated:', editor);
+        setFieldValue('description', content);
     }
 
 
     return (
         <div className="container m-5">
             <h3>Create Project</h3>
-            <form className="container" onSubmit={handleSubmit}>
+            <form className="container" onSubmit={handleSubmit} onChange={handleChange}>
                 <div className="form-group">
                     <p>Name</p>
                     <input className="form-control" name="projectName" />
@@ -71,8 +76,8 @@ function CreateProject(props) {
                     />
                 </div>
                 <div className="form-group">
-                    <select defaultValue={'DEFAULT'}  name="categoryId" className="form-control">
-                    <option value="DEFAULT" disabled>Choose a project ...</option>
+                    <select defaultValue={'DEFAULT'} name="categoryId" className="form-control" onChange={handleChange}>
+                        <option value="DEFAULT" disabled>Choose a project ...</option>
                         {arrProjectCategory.map((item, index) => {
                             return <option value={item.id} key={index}>{item.projectCategoryName}</option>
                         })}
@@ -86,22 +91,37 @@ function CreateProject(props) {
 
 
 const createProjectForm = withFormik({
-    mapPropsToValues: () => ({
-
-    }),
+    enableReinitialize: true,
+    mapPropsToValues: (props) => {
+        console.log('propvalue', props)
+        return {
+            projectName: '',
+            description: '',
+            categoryId: props.arrProjectCategory[0]?.id
+        }
+    },
     validationSchema: Yup.object().shape({
 
 
     }),
     handleSubmit: (values, { props, setSubmitting }) => {
+        console.log('values', values);
 
+        props.dispatch({
+            type: 'CREATE_PROJECT_SAGA',
+            newProject: values
+        })
 
 
     },
     displayName: 'CreateProjectFormik',
 })(CreateProject);
 
+const mapStateToProps = (state) => ({
+
+    arrProjectCategory: state.ProjectCategoryReducer.arrProjectCategory
+
+})
 
 
-
-export default connect()(createProjectForm);
+export default connect(mapStateToProps)(createProjectForm);

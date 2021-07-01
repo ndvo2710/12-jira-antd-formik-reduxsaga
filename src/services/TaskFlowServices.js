@@ -13,8 +13,16 @@ class TaskFlowService {
 
     getAllProjectCategory = () => {
         return Axios({
-            url:`${DOMAIN_TASKFLOW}/ProjectCategory`,
+            url: `${DOMAIN_TASKFLOW}/ProjectCategory`,
             method: 'GET'
+        })
+    }
+
+    createProject = (newProject) => {
+        return Axios({
+            url: `${DOMAIN_TASKFLOW}/Project/createProject`,
+            method: 'POST',
+            data: newProject
         })
     }
 }
