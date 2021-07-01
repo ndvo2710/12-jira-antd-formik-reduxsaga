@@ -13,6 +13,7 @@ import { ADD_HISTORY } from './redux/constants/Login/LoginTaskFlow';
 import { TaskFlowTemplate } from './templates/taskflow/TaskFlowTemplate';
 import index from './pages/JiraClone/TaskFlow';
 import CreateProject from './components/TaskFlow/Project/CreateProject';
+import ProjectManagement from './components/TaskFlow/Project/ProjectManagement';
 
 function App() {
     const history = useHistory();
@@ -34,6 +35,7 @@ function App() {
                 <UserLoginTemplate exact path='/login' Component={Login} />
                 <TaskFlowTemplate exact path='/taskflow' Component={index}/>
                 <TaskFlowTemplate exact path='/createproject' Component={CreateProject}/>
+                <TaskFlowTemplate exact path='/projectmanagement' Component={ProjectManagement}/>
             </Switch>
 
         </>
