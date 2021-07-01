@@ -18,7 +18,7 @@ function* createProjectSaga(action) {
     try {
 
         // Call API service to get data
-        const { data, status } = yield call(() => taskFlowService.createProject(action.newProject));
+        const { data, status } = yield call(() => taskFlowService.createProjectAuthorization(action.newProject));
 
 
 

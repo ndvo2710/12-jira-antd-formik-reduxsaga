@@ -1,5 +1,5 @@
 import Axios from "axios"
-import { DOMAIN_TASKFLOW } from "../util/constants/settingSystem";
+import { ACCESS_TOKEN_LC_KEY, DOMAIN_TASKFLOW } from "../util/constants/settingSystem";
 
 class TaskFlowService {
 
@@ -23,6 +23,16 @@ class TaskFlowService {
             url: `${DOMAIN_TASKFLOW}/Project/createProject`,
             method: 'POST',
             data: newProject
+        })
+    }
+
+    createProjectAuthorization = (newProject) => {
+        console.log(localStorage.getItem(ACCESS_TOKEN_LC_KEY))
+        return Axios({
+            url: `${DOMAIN_TASKFLOW}/Project/createProjectAuthorize`,
+            method:'POST',
+            data:newProject,
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN_LC_KEY)} //JWT 
         })
     }
 }
