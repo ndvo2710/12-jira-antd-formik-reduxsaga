@@ -54,7 +54,8 @@
   }
   
   .sideBar .sideBar-icon {
-    margin-bottom: 20%;
+    margin-bottom: 2%;
+    padding: 0 20%;
   }
   
   .sideBar .sideBar-icon .svg-inline--fa {
@@ -66,7 +67,7 @@
   }
   
   .sideBar .sideBar-top .sideBar-icon:first-child {
-    padding-top: 20%;
+    padding-top: 2%;
     font-size: 25px;
   }
   
@@ -74,10 +75,6 @@
     position: absolute;
     bottom: 3%;
     left: 8%;
-  }
-  
-  .sideBar .sideBar-icon {
-    padding: 0 18%;
   }
   
   .sideBar .sideBar-icon:not(:first-child) {
