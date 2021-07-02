@@ -3,6 +3,7 @@ import LoadingReducer from './reducers/LoadingReducer';
 import UserLogInReducer from './reducers/UserLogInReducer';
 import HistoryReducer from './reducers/HistoryReducer';
 import ProjectCategoryReducer from './reducers/ProjectCategoryReducer';
+import ProjectManagementReducer from './reducers/ProjectManagementReducer';
 
 // middleware saga
 import createMiddlewareSaga from 'redux-saga';
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     UserLogInReducer,
     HistoryReducer,
     ProjectCategoryReducer,
+    ProjectManagementReducer,
 });
 
 const store = createStore(
