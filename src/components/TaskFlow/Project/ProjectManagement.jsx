@@ -49,6 +49,8 @@ export default function ProjectManagement(props) {
     let { sortedInfo, filteredInfo } = state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
+    
+    // columns docs : https://ant.design/components/table/#Column
     const columns = [
         {
             title: 'id',
@@ -61,8 +63,10 @@ export default function ProjectManagement(props) {
             title: 'projectName',
             dataIndex: 'projectName',
             key: 'projectName',
-            sorter: (a, b) => {
-                if(a.projectName?.trim().toLowerCase() > b.projectName?.trim().toLowerCase()){
+            sorter: (item2, item1) => {
+                let projectName1 = item1.projectName?.trim().toLowerCase();
+                let projectName2 = item2.projectName?.trim().toLowerCase();
+                if (projectName2 < projectName1) {
                     return -1;
                 }
                 return 1;
@@ -85,7 +89,15 @@ export default function ProjectManagement(props) {
         {
             title: 'category',
             dataIndex: 'categoryName',
-            key: 'categoryName'
+            key: 'categoryName',
+            sorter: (item2, item1) => {
+                let categoryName1 = item1.categoryName?.trim().toLowerCase();
+                let categoryName2 = item2.categoryName?.trim().toLowerCase();
+                if (categoryName2 < categoryName1) {
+                    return -1;
+                }
+                return 1;
+            },
         },
         {
             title: 'creator',
@@ -93,7 +105,15 @@ export default function ProjectManagement(props) {
             key: 'creator',
             render: (text, record, index) => {
                 return <Tag color="green">{record.creator?.name}</Tag>
-            }
+            },
+            sorter: (item2, item1) => {
+                let creator1 = item1.creator?.name.trim().toLowerCase();
+                let creator2 = item2.creator?.name.trim().toLowerCase();
+                if (creator2 < creator1) {
+                    return -1;
+                }
+                return 1;
+            },
         },
         {
             title: 'Action',
