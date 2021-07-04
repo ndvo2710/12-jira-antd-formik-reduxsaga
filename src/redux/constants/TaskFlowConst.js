@@ -16,3 +16,13 @@ export const SET_LIST_PROJECT = 'SET_LIST_PROJECT';
 export const GET_LIST_PROJECT_SAGA = 'GET_LIST_PROJECT_SAGA';
 
 
+//-------------Form Edit Project ---------
+export const SET_SUBMIT_EDIT_PROJECT = 'SET_SUBMIT_EDIT_PROJECT';
+export const OPEN_FORM_EDIT_PROJECT = 'OPEN_FORM_EDIT_PROJECT';
+
+
+//-------------Drawer Reducer ---------
+export const OPEN_DRAWER = 'OPEN_DRAWER';
+export const CLOSE_DRAWER = 'CLOSE_DRAWER';
+
+
