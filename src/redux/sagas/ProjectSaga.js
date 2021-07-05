@@ -3,7 +3,7 @@ import { taskFlowService } from "../../services/TaskFlowServices";
 import { STATUS_CODE } from "../../util/constants/settingSystem";
 import { history } from "../../util/history";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../constants/LoadingConst";
-import { CREATE_PROJECT_SAGA, SET_LIST_PROJECT, GET_LIST_PROJECT_SAGA } from "../constants/TaskFlowConst";
+import { CREATE_PROJECT_SAGA, SET_LIST_PROJECT, GET_LIST_PROJECT_SAGA, CLOSE_DRAWER, UPDATE_PROJECT_SAGA } from "../constants/TaskFlowConst";
 
 function* createProjectSaga(action) {
 
@@ -67,9 +67,52 @@ function* trackingActionGetListProjectSaga() {
 }
 
 
+//UpdateProject
+function* updateProjectSaga(action) {
+    // console.log('action123',action);
+    // return;
+    yield put({
+        type: DISPLAY_LOADING
+    })
+    yield delay (500);
+
+    try {
+        const { data, status } = yield call(() => taskFlowService.updateProject(action.prjectUpdate));
+        
+        if (status === STATUS_CODE.SUCCESS) {
+            console.log(data)
+
+            // history.push('/projectmanagement');
+        }
+        // Dispatch data to reducer via put
+        // yield put({
+        //     type:'GET_LIST_PROJECT_SAGA'
+        // })
+
+        yield call(() => getListProjectSaga);
+        yield put({
+            type: CLOSE_DRAWER
+        })
+    } catch (err) {
+        console.log(err);
+    }
+
+    yield put({
+        type: HIDE_LOADING
+    })
+}
+
+
+function* trackingActionUpdateProjectSaga() {
+    yield takeLatest(UPDATE_PROJECT_SAGA, updateProjectSaga);
+}
+
+
+
 const projectTrackingList = [
     trackingActionProjectSaga(),
-    trackingActionGetListProjectSaga()
+    trackingActionGetListProjectSaga(),
+    trackingActionUpdateProjectSaga()
 ];
 
 export default projectTrackingList;

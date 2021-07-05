@@ -19,6 +19,8 @@ export const GET_LIST_PROJECT_SAGA = 'GET_LIST_PROJECT_SAGA';
 //-------------Form Edit Project ---------
 export const SET_SUBMIT_EDIT_PROJECT = 'SET_SUBMIT_EDIT_PROJECT';
 export const OPEN_FORM_EDIT_PROJECT = 'OPEN_FORM_EDIT_PROJECT';
+export const UPDATE_PROJECT_SAGA = 'UPDATE_PROJECT_SAGA';
+export const EDIT_PROJECT = 'EDIT_PROJECT';
 
 
 //-------------Drawer Reducer ---------

@@ -3,7 +3,7 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { Editor } from '@tinymce/tinymce-react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { GET_ALL_PROJECT_CATEGORY_SAGA, SET_SUBMIT_EDIT_PROJECT } from '../../../redux/constants/TaskFlowConst';
+import { GET_ALL_PROJECT_CATEGORY_SAGA, SET_SUBMIT_EDIT_PROJECT, UPDATE_PROJECT_SAGA } from '../../../redux/constants/TaskFlowConst';
 
 function FormEditProject(props) {
     const arrProjectCategory = useSelector(state => state.ProjectCategoryReducer.arrProjectCategory);
@@ -72,7 +72,8 @@ function FormEditProject(props) {
                         <Editor
 
                             name="description123"
-                            initialValue={values.categoryId}
+                            // initialValue={values.description} // remove this to fix the reverse written content issue https://github.com/tinymce/tinymce-react/issues/267
+                            value={values.description}
                             init={{
                                 selector: 'textarea#myTextArea',
 
@@ -85,8 +86,8 @@ function FormEditProject(props) {
                                 ],
                                 toolbar:
                                     'undo redo | formatselect | bold italic backcolor | \
-        alignleft aligncenter alignright alignjustify | \
-        bullist numlist outdent indent | removeformat | help'
+                                        alignleft aligncenter alignright alignjustify | \
+                                        bullist numlist outdent indent | removeformat | help'
                             }}
                             onEditorChange={handleEditorChange}
                         />
@@ -116,6 +117,10 @@ const EditProjectForm = withFormik({
     handleSubmit: (values, { props, setSubmitting }) => {
 
         console.log('values', values);
+        props.dispatch({
+            type: UPDATE_PROJECT_SAGA,
+            prjectUpdate: values
+        })
 
 
     },

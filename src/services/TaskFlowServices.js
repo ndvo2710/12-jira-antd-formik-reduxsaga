@@ -43,6 +43,15 @@ class TaskFlowService {
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN_LC_KEY) } //token from backend to prove user has already logged in
         })
     }
+
+    updateProject = (projectUpdate) => {
+        return Axios({
+            url: `${DOMAIN_TASKFLOW}/Project/updateProject?projectId=${projectUpdate.id}`,
+            method: 'PUT',
+            data: projectUpdate,
+            headers: { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN_LC_KEY) } //token from backend to prove user has already logged in
+        })
+    }
 }
 
 export const taskFlowService = new TaskFlowService();
