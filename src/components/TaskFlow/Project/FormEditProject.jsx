@@ -119,7 +119,7 @@ const EditProjectForm = withFormik({
         console.log('values', values);
         props.dispatch({
             type: UPDATE_PROJECT_SAGA,
-            prjectUpdate: values
+            projectUpdate: values
         })
 
 

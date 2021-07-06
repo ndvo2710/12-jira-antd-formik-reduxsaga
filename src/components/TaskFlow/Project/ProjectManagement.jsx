@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Tag, Space, Button } from 'antd';
-import ReactHtmlParser from "react-html-parser";
+import { Table, Tag, Space, Button, Popconfirm } from 'antd';
+// import ReactHtmlParser from "react-html-parser";
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux';
-import { EDIT_PROJECT, GET_LIST_PROJECT_SAGA, OPEN_FORM_EDIT_PROJECT } from '../../../redux/constants/TaskFlowConst';
+import { DELETE_PROJECT_SAGA, EDIT_PROJECT, GET_LIST_PROJECT_SAGA, OPEN_FORM_EDIT_PROJECT } from '../../../redux/constants/TaskFlowConst';
 import FormEditProject from './FormEditProject';
 
 
@@ -139,9 +139,19 @@ export default function ProjectManagement(props) {
                     }}>
                         <FormOutlined style={{ fontSize: 17 }} />
                     </button>
-                    <button className="btn btn-danger">
-                        <DeleteOutlined style={{ fontSize: 17 }} />
-                    </button>
+                    <Popconfirm
+                        title="Are you sure to delete this project?"
+                        onConfirm={() => {
+                            dispatch({ type: DELETE_PROJECT_SAGA, idProject: record.id })
+                        }}
+
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <button className="btn btn-danger">
+                            <DeleteOutlined style={{ fontSize: 17 }} />
+                        </button>
+                    </Popconfirm>,
                 </div>
             },
         }
