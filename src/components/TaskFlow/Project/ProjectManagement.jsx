@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Tag, Space, Button, Popconfirm } from 'antd';
-// import ReactHtmlParser from "react-html-parser";
+import { Table, Tag, Space, Button, Popconfirm, Avatar, AutoComplete, Popover } from 'antd';
+import ReactHtmlParser from "react-html-parser";
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_PROJECT_SAGA, EDIT_PROJECT, GET_LIST_PROJECT_SAGA, OPEN_FORM_EDIT_PROJECT } from '../../../redux/constants/TaskFlowConst';
@@ -74,18 +74,18 @@ export default function ProjectManagement(props) {
             },
 
         },
-        // {
-        //     title: 'description',
-        //     dataIndex: 'description',
-        //     key: 'description',
-        //     render: (text, record, index) => {
-        //         let contentJSX = ReactHtmlParser(text);
+        {
+            title: 'description',
+            dataIndex: 'description',
+            key: 'description',
+            render: (text, record, index) => {
+                let contentJSX = ReactHtmlParser(text);
 
-        //         return <div>
-        //             {contentJSX}
-        //         </div>
-        //     }
-        // },
+                return <div>
+                    {contentJSX}
+                </div>
+            }
+        },
 
         {
             title: 'category',
@@ -115,6 +115,26 @@ export default function ProjectManagement(props) {
                 }
                 return 1;
             },
+        },
+        {
+            title: 'members',
+            key: 'members',
+            render: (text, record, index) => {
+                return <div>
+                    {record.members?.slice(0, 3).map((member, index) => {
+                        return <Avatar key={index} src={member.avatar} />
+                    })}
+
+                    {record.members?.length > 3 ? <Avatar>...</Avatar> : ''}
+
+                    <Popover placement="rightTop" title={"Add user"} content={() => {
+                        return <AutoComplete style={{ width: '100%' }} />
+                    }} trigger="click">
+                        <Button style={{ borderRadius: '50%' }}>+</Button>
+                    </Popover>
+                </div>
+            }
+
         },
         {
             title: 'Action',
