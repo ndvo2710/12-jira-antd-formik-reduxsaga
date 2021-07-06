@@ -1,56 +1,32 @@
 import Axios from "axios"
 import { ACCESS_TOKEN_LC_KEY, DOMAIN_TASKFLOW } from "../util/constants/settingSystem";
+import baseService from "./base";
 
-class TaskFlowService {
+class TaskFlowService extends baseService {
 
     signInApi = (userLogin) => {
-        return Axios({
-            url: `${DOMAIN_TASKFLOW}/users/signin`,
-            method: 'POST',
-            data: userLogin
-        })
+        return this.post('/users/signin', userLogin);
     }
 
     getAllProjectCategory = () => {
-        return Axios({
-            url: `${DOMAIN_TASKFLOW}/ProjectCategory`,
-            method: 'GET'
-        })
+        return this.get('/ProjectCategory');
     }
 
     createProject = (newProject) => {
-        return Axios({
-            url: `${DOMAIN_TASKFLOW}/Project/createProject`,
-            method: 'POST',
-            data: newProject
-        })
+        return this.post('/Project/createProject', newProject);
     }
 
     createProjectAuthorization = (newProject) => {
         console.log(localStorage.getItem(ACCESS_TOKEN_LC_KEY))
-        return Axios({
-            url: `${DOMAIN_TASKFLOW}/Project/createProjectAuthorize`,
-            method: 'POST',
-            data: newProject,
-            headers: { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN_LC_KEY) } //JWT 
-        })
+        return this.post('/Project/createProjectAuthorize', newProject);
     }
 
     getListProject = () => {
-        return Axios({
-            url: `${DOMAIN_TASKFLOW}/Project/getAllProject`,
-            method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN_LC_KEY) } //token from backend to prove user has already logged in
-        })
+        return this.get('/Project/getAllProject');
     }
 
     updateProject = (projectUpdate) => {
-        return Axios({
-            url: `${DOMAIN_TASKFLOW}/Project/updateProject?projectId=${projectUpdate.id}`,
-            method: 'PUT',
-            data: projectUpdate,
-            headers: { 'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN_LC_KEY) } //token from backend to prove user has already logged in
-        })
+        return this.put(`/Project/updateProject?projectId=${projectUpdate.id}`, projectUpdate);
     }
 }
 
