@@ -3,13 +3,17 @@ import { Table, Tag, Space, Button, Popconfirm, Avatar, AutoComplete, Popover } 
 import ReactHtmlParser from "react-html-parser";
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_PROJECT_SAGA, EDIT_PROJECT, GET_LIST_PROJECT_SAGA, OPEN_FORM_EDIT_PROJECT } from '../../../redux/constants/TaskFlowConst';
+import { ADD_USER_PROJECT_API, DELETE_PROJECT_SAGA, EDIT_PROJECT, GET_LIST_PROJECT_SAGA, GET_USER_API, OPEN_FORM_EDIT_PROJECT } from '../../../redux/constants/TaskFlowConst';
 import FormEditProject from './FormEditProject';
 
 
 export default function ProjectManagement(props) {
     const projectList = useSelector(state => state.ProjectManagementReducer.projectList);
+    const { userSearch } = useSelector(state => state.UserLogInReducer);
+
     const dispatch = useDispatch();
+
+    const [value, setValue] = useState('');
     const [state, setState] = useState({
         filteredInfo: null,
         sortedInfo: null,
@@ -128,7 +132,35 @@ export default function ProjectManagement(props) {
                     {record.members?.length > 3 ? <Avatar>...</Avatar> : ''}
 
                     <Popover placement="rightTop" title={"Add user"} content={() => {
-                        return <AutoComplete style={{ width: '100%' }} />
+                        return <AutoComplete
+
+                            options={userSearch?.map((user, index) => {
+                                return { label: user.name, value: user.userId.toString() }
+                            })}
+                            value={value}
+
+                            onChange={(text) => {
+                                setValue(text);
+                            }}
+
+                            onSelect={(valueSelect, option) => {
+                                setValue(option.label);
+                                // Call Api via dispatch
+                                dispatch({
+                                    type: ADD_USER_PROJECT_API,
+                                    userProject: {
+                                        "projectId": record.id,
+                                        "userId": valueSelect
+                                    }
+                                })
+                            }}
+                            style={{ width: '100%' }} onSearch={(value) => {
+                                dispatch({
+                                    type: GET_USER_API,
+                                    keyWord: value
+                                })
+
+                            }} />
                     }} trigger="click">
                         <Button style={{ borderRadius: '50%' }}>+</Button>
                     </Popover>

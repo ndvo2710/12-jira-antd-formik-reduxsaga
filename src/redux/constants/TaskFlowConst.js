@@ -29,3 +29,12 @@ export const OPEN_DRAWER = 'OPEN_DRAWER';
 export const CLOSE_DRAWER = 'CLOSE_DRAWER';
 
 
+
+//-------------User Task Flow ---------
+export const GET_USER_SEARCH = 'GET_USER_SEARCH';
+export const GET_USER_API = 'GET_USER_API';
+export const ADD_USER_PROJECT_API = 'ADD_USER_PROJECT_API';
+
+
+
+
