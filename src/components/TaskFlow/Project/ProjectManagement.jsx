@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Table, Tag, Space, Button, Popconfirm, Avatar, AutoComplete, Popover } from 'antd';
 import ReactHtmlParser from "react-html-parser";
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
@@ -18,6 +18,8 @@ export default function ProjectManagement(props) {
         filteredInfo: null,
         sortedInfo: null,
     });
+
+    const searchRef = useRef(null);
 
     useEffect(() => {
         dispatch({ type: GET_LIST_PROJECT_SAGA })
@@ -191,10 +193,16 @@ export default function ProjectManagement(props) {
                                 })
                             }}
                             style={{ width: '100%' }} onSearch={(value) => {
-                                dispatch({
-                                    type: GET_USER_API,
-                                    keyWord: value
-                                })
+                                if (searchRef.current) {
+                                    clearTimeout(searchRef.current);
+                                }
+                                searchRef.current = setTimeout(() => {
+                                    dispatch({
+                                        type: GET_USER_API,
+                                        keyWord: value
+                                    })
+
+                                }, 300)
 
                             }} />
                     }} trigger="click">
