@@ -5,6 +5,7 @@ import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_USER_PROJECT_API, DELETE_PROJECT_SAGA, EDIT_PROJECT, GET_LIST_PROJECT_SAGA, GET_USER_API, OPEN_FORM_EDIT_PROJECT, REMOVE_USER_PROJECT_API } from '../../../redux/constants/TaskFlowConst';
 import FormEditProject from './FormEditProject';
+import { NavLink } from 'react-router-dom';
 
 
 export default function ProjectManagement(props) {
@@ -64,12 +65,16 @@ export default function ProjectManagement(props) {
             dataIndex: 'id',
             key: 'id',
             sorter: (a, b) => a.id - b.id,
+            sortDirections: ['descend'],
 
         },
         {
             title: 'projectName',
             dataIndex: 'projectName',
             key: 'projectName',
+            render: (text, record, index) => {
+                return <NavLink to={`/projectdetail/${record.id}`}> {text}</NavLink>
+            },
             sorter: (item2, item1) => {
                 let projectName1 = item1.projectName?.trim().toLowerCase();
                 let projectName2 = item2.projectName?.trim().toLowerCase();

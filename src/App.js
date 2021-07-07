@@ -11,10 +11,10 @@ import { useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
 import { ADD_HISTORY } from './redux/constants/Login/LoginTaskFlow';
 import { TaskFlowTemplate } from './templates/taskflow/TaskFlowTemplate';
-import index from './pages/JiraClone/TaskFlow';
 import CreateProject from './components/TaskFlow/Project/CreateProject';
 import ProjectManagement from './components/TaskFlow/Project/ProjectManagement';
 import DrawerHOC from './HOC/TaskFlowHOC/DrawerHOC';
+import IndexTaskFlow from './pages/JiraClone/TaskFlow';
 
 function App() {
     const history = useHistory();
@@ -35,7 +35,8 @@ function App() {
                 <HomeTemplate exact path='/about' Component={About} />
                 <HomeTemplate exact path='/contact' Component={Contact} />
                 <UserLoginTemplate exact path='/login' Component={Login} />
-                <TaskFlowTemplate exact path='/taskflow' Component={index} />
+                <TaskFlowTemplate exact path='/taskflow' Component={IndexTaskFlow} />
+                <TaskFlowTemplate exact path='/projectdetail/:projectId' Component={IndexTaskFlow} />
                 <TaskFlowTemplate exact path='/createproject' Component={CreateProject} />
                 <TaskFlowTemplate exact path='/projectmanagement' Component={ProjectManagement} />
             </Switch>

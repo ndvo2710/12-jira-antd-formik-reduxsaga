@@ -14,6 +14,9 @@ export const CREATE_PROJECT_SAGA = 'CREATE_PROJECT_SAGA';
 //-------------Project Management ---------
 export const SET_LIST_PROJECT = 'SET_LIST_PROJECT';
 export const GET_LIST_PROJECT_SAGA = 'GET_LIST_PROJECT_SAGA';
+export const GET_PROJECT_DETAIL = 'GET_PROJECT_DETAIL';
+export const PUT_PROJECT_DETAIL = 'PUT_PROJECT_DETAIL';
+
 
 
 //-------------Form Edit Project ---------
@@ -35,6 +38,9 @@ export const GET_USER_SEARCH = 'GET_USER_SEARCH';
 export const GET_USER_API = 'GET_USER_API';
 export const ADD_USER_PROJECT_API = 'ADD_USER_PROJECT_API';
 export const REMOVE_USER_PROJECT_API = 'REMOVE_USER_PROJECT_API';
+
+
+
 
 
 

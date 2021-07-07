@@ -5,10 +5,10 @@ import { STATUS_CODE } from "../../util/constants/settingSystem";
 import { history } from "../../util/history";
 import { notifiFunction } from "../../util/notification";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../constants/LoadingConst";
-import { CREATE_PROJECT_SAGA, SET_LIST_PROJECT, GET_LIST_PROJECT_SAGA, CLOSE_DRAWER, UPDATE_PROJECT_SAGA, DELETE_PROJECT_SAGA } from "../constants/TaskFlowConst";
+import { CREATE_PROJECT_SAGA, SET_LIST_PROJECT, GET_LIST_PROJECT_SAGA, CLOSE_DRAWER, UPDATE_PROJECT_SAGA, DELETE_PROJECT_SAGA, GET_PROJECT_DETAIL, PUT_PROJECT_DETAIL } from "../constants/TaskFlowConst";
 
 
-function* trackingActionProjectSaga() {
+function* trackingActionProject() {
     function* createProjectSaga(action) {
 
         console.log('actionCreateProject', action)
@@ -46,7 +46,7 @@ function* trackingActionProjectSaga() {
 }
 
 
-function* trackingActionGetListProjectSaga() {
+function* trackingActionGetListProject() {
     // Saga to get all project from API
     function* getListProjectSaga(action) {
 
@@ -70,7 +70,7 @@ function* trackingActionGetListProjectSaga() {
 }
 
 
-function* trackingActionUpdateProjectSaga() {
+function* trackingActionUpdateProject() {
     //UpdateProject
     function* updateProjectSaga(action) {
         yield put({
@@ -107,7 +107,7 @@ function* trackingActionUpdateProjectSaga() {
 }
 
 // Saga to delete project from API
-function* trackingActionDeleteProjectSaga() {
+function* trackingActionDeleteProject() {
     function* deleteProjectSaga(action) {
         yield put({
             type: DISPLAY_LOADING
@@ -147,11 +147,44 @@ function* trackingActionDeleteProjectSaga() {
 }
 
 
+// Saga to get project detail from API
+function* trackingActionGetProjectDetailSaga() {
+    function* getProjectDetailSaga(action) {
+        yield put({
+            type: DISPLAY_LOADING
+        })
+        yield delay(500);
+
+        try {
+            const { data, status } = yield call(() => projectService.getProjectDetail(action.projectId));
+
+            console.log('data', data);
+            // Dispatch data to ProjectReducer
+            yield put({
+                type: PUT_PROJECT_DETAIL,
+                projectDetail: data.content
+            })
+
+        } catch (err) {
+            console.log('404 not found !')
+            history.push('/projectmanagement');
+        }
+
+        yield put({
+            type: HIDE_LOADING
+        })
+    }
+
+    yield takeLatest(GET_PROJECT_DETAIL, getProjectDetailSaga);
+}
+
+
 const projectTrackingList = [
-    trackingActionProjectSaga(),
-    trackingActionGetListProjectSaga(),
-    trackingActionUpdateProjectSaga(),
-    trackingActionDeleteProjectSaga(),
+    trackingActionProject(),
+    trackingActionGetListProject(),
+    trackingActionUpdateProject(),
+    trackingActionDeleteProject(),
+    trackingActionGetProjectDetailSaga(),
 ];
 
 export default projectTrackingList;

@@ -1,16 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Content from '../../../components/TaskFlow/Main/Content'
 import Header from '../../../components/TaskFlow/Main/Header'
 import Info from '../../../components/TaskFlow/Main/Info'
+import { GET_PROJECT_DETAIL } from '../../../redux/constants/TaskFlowConst'
 
-export default function index() {
+export default function IndexTaskFlow(props) {
+
+    const { projectDetail } = useSelector(state => state.ProjectReducer)
+    const dispatch = useDispatch();
+
+    console.log('projectDetail', projectDetail)
+
+    useEffect(() => {
+        const { projectId } = props.match.params;
+        dispatch({
+            type: GET_PROJECT_DETAIL,
+            projectId
+        });
+
+    }, [])
+
     return (
         <div className="main">
-            <Header />
+            <Header projectDetail={projectDetail}/>
 
-            <Info />
+            <Info projectDetail={projectDetail}/>
 
-            <Content />
+            <Content projectDetail={projectDetail}/>
         </div>
 
     )
