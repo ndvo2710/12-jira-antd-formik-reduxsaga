@@ -6,7 +6,7 @@ import { userService } from '../../services/UserServices';
 import { ACCESS_TOKEN_LC_KEY, USER_LOGIN_LC_KEY } from '../../util/constants/settingSystem';
 import { DISPLAY_LOADING, HIDE_LOADING } from '../constants/LoadingConst';
 import { USER_LOGIN, USER_SIGNIN_API } from '../constants/Login/LoginTaskFlow';
-import { ADD_USER_PROJECT_API, GET_LIST_PROJECT_SAGA, GET_USER_API, GET_USER_SEARCH } from '../constants/TaskFlowConst';
+import { ADD_USER_PROJECT_API, GET_LIST_PROJECT_SAGA, GET_USER_API, GET_USER_SEARCH, REMOVE_USER_PROJECT_API } from '../constants/TaskFlowConst';
 
 // Manage Action Saga
 
@@ -52,7 +52,7 @@ function* trackingActionSignIn() {
             type: HIDE_LOADING
         })
     }
-    
+
     yield takeLatest(USER_SIGNIN_API, signinSaga);
 }
 
@@ -96,11 +96,28 @@ function* trackingActionAddUserProject() {
     yield takeLatest(ADD_USER_PROJECT_API, addUserProjectSaga);
 }
 
+function* trackingActionRemoveUserProject() {
+    function* removeUserProjectSaga(action) {
+        try {
+            const { data, status } = yield call(() => userService.deleteUserFromProject(action.userProject));
+
+            yield put({
+                type: GET_LIST_PROJECT_SAGA
+            })
+
+        } catch (err) {
+            console.log(err.response.data)
+        }
+    }
+    yield takeLatest(REMOVE_USER_PROJECT_API, removeUserProjectSaga);
+}
+
 
 const userTaskFlowSagaActionTrackingList = [
     trackingActionSignIn(),
     trackingActionGetUser(),
     trackingActionAddUserProject(),
+    trackingActionRemoveUserProject(),
 ]
 
 export default userTaskFlowSagaActionTrackingList;

@@ -70,81 +70,79 @@ function* trackingActionGetListProjectSaga() {
 }
 
 
-//UpdateProject
-function* updateProjectSaga(action) {
-    yield put({
-        type: DISPLAY_LOADING
-    })
-    yield delay(500);
+function* trackingActionUpdateProjectSaga() {
+    //UpdateProject
+    function* updateProjectSaga(action) {
+        yield put({
+            type: DISPLAY_LOADING
+        })
+        yield delay(500);
 
-    try {
-        const { data, status } = yield call(() => taskFlowService.updateProject(action.projectUpdate));
+        try {
+            console.log('action.projectUpdate', action.projectUpdate);
+            const { data, status } = yield call(() => taskFlowService.updateProject(action.projectUpdate));
 
-        if (status === STATUS_CODE.SUCCESS) {
-            console.log(data)
+            if (status === STATUS_CODE.SUCCESS) {
+                console.log(data)
 
-            // history.push('/projectmanagement');
+                // history.push('/projectmanagement');
+            }
+
+            yield put({
+                type: GET_LIST_PROJECT_SAGA
+            })
+
+            yield put({
+                type: CLOSE_DRAWER
+            })
+        } catch (err) {
+            console.log(err);
         }
 
         yield put({
-            type: GET_LIST_PROJECT_SAGA
+            type: HIDE_LOADING
         })
-
-        yield put({
-            type: CLOSE_DRAWER
-        })
-    } catch (err) {
-        console.log(err);
     }
-
-    yield put({
-        type: HIDE_LOADING
-    })
-}
-
-function* trackingActionUpdateProjectSaga() {
     yield takeLatest(UPDATE_PROJECT_SAGA, updateProjectSaga);
 }
 
 // Saga to delete project from API
-function* deleteProjectSaga(action) {
-    yield put({
-        type: DISPLAY_LOADING
-    })
-    yield delay(500);
+function* trackingActionDeleteProjectSaga() {
+    function* deleteProjectSaga(action) {
+        yield put({
+            type: DISPLAY_LOADING
+        })
+        yield delay(500);
 
-    try {
-        const { data, status } = yield call(() => projectService.deleteProject(action.idProject));
-        // Dispatch data to reducer via put
-        if (status === STATUS_CODE.SUCCESS) {
-            console.log(data)
+        try {
+            const { data, status } = yield call(() => projectService.deleteProject(action.idProject));
+            // Dispatch data to reducer via put
+            if (status === STATUS_CODE.SUCCESS) {
+                console.log(data)
 
-            notifiFunction('success', 'Delete project successfully !')
+                notifiFunction('success', 'Delete project successfully !')
 
-            // history.push('/projectmanagement');
-        } else {
+                // history.push('/projectmanagement');
+            } else {
+                notifiFunction('error', 'Delete project fail !')
+            }
+
+            yield put({
+                type: GET_LIST_PROJECT_SAGA
+            })
+
+            yield put({
+                type: CLOSE_DRAWER
+            })
+        } catch (err) {
             notifiFunction('error', 'Delete project fail !')
+            console.log(err);
         }
 
         yield put({
-            type: GET_LIST_PROJECT_SAGA
+            type: HIDE_LOADING
         })
-
-        yield put({
-            type: CLOSE_DRAWER
-        })
-    } catch (err) {
-        notifiFunction('error', 'Delete project fail !')
-        console.log(err);
     }
-
-    yield put({
-        type: HIDE_LOADING
-    })
-}
-
-
-function* trackingActionDeleteProjectSaga() {
     yield takeLatest(DELETE_PROJECT_SAGA, deleteProjectSaga);
 }
 
