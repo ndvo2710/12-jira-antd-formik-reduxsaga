@@ -5,10 +5,10 @@ import { STATUS_CODE } from "../../util/constants/settingSystem";
 import { history } from "../../util/history";
 import { notifiFunction } from "../../util/notification";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../constants/LoadingConst";
-import { CREATE_PROJECT_SAGA, SET_LIST_PROJECT, GET_LIST_PROJECT_SAGA, CLOSE_DRAWER, UPDATE_PROJECT_SAGA, DELETE_PROJECT_SAGA, GET_PROJECT_DETAIL, PUT_PROJECT_DETAIL } from "../constants/TaskFlowConst";
+import { CREATE_PROJECT_SAGA, SET_LIST_PROJECT, GET_LIST_PROJECT_SAGA, CLOSE_DRAWER, UPDATE_PROJECT_SAGA, DELETE_PROJECT_SAGA, GET_PROJECT_DETAIL, PUT_PROJECT_DETAIL, GET_ALL_PROJECT_SAGA, GET_ALL_PROJECT, GET_USER_BY_PROJECT_ID_SAGA } from "../constants/TaskFlowConst";
 
 
-function* trackingActionProject() {
+function* trackingActionCreateProject() {
     function* createProjectSaga(action) {
 
         console.log('actionCreateProject', action)
@@ -148,7 +148,7 @@ function* trackingActionDeleteProject() {
 
 
 // Saga to get project detail from API
-function* trackingActionGetProjectDetailSaga() {
+function* trackingActionGetProjectDetail() {
     function* getProjectDetailSaga(action) {
         yield put({
             type: DISPLAY_LOADING
@@ -179,12 +179,50 @@ function* trackingActionGetProjectDetailSaga() {
 }
 
 
+
+// 
+function* trackingActionGetProjectAll() {
+    function* getProjectAllSaga(action) {
+        yield put({
+            type: DISPLAY_LOADING
+        })
+        yield delay(500);
+
+        try {
+            const { data, status } = yield call(() => projectService.getAllProject());
+
+            yield put({
+                type: GET_ALL_PROJECT,
+                arrProject: data.content
+            })
+
+            yield put({
+                type:GET_USER_BY_PROJECT_ID_SAGA,
+                idProject:data.content[0].id
+            })
+
+        } catch (err) {
+            console.log('404 not found !')
+            history.push('/projectmanagement');
+        }
+
+        yield put({
+            type: HIDE_LOADING
+        })
+    }
+
+    yield takeLatest(GET_ALL_PROJECT_SAGA, getProjectAllSaga);
+}
+
+
+
 const projectTrackingList = [
-    trackingActionProject(),
+    trackingActionCreateProject(),
     trackingActionGetListProject(),
     trackingActionUpdateProject(),
     trackingActionDeleteProject(),
-    trackingActionGetProjectDetailSaga(),
+    trackingActionGetProjectDetail(),
+    trackingActionGetProjectAll()
 ];
 
 export default projectTrackingList;

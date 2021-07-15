@@ -4,7 +4,7 @@ import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker } from 'antd'
 import { CLOSE_DRAWER, OPEN_DRAWER } from '../../redux/constants/TaskFlowConst';
 
 export default function DrawerHOC() {
-    const { visible, ComponentContentDrawer, callBackSubmit } = useSelector(state => state.DrawerReducer);
+    const { visible, ComponentContentDrawer, callBackSubmit, title } = useSelector(state => state.DrawerReducer);
 
     const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ export default function DrawerHOC() {
         <>
             {/* <button onClick={showDrawer}>showdrawer</button> */}
             <Drawer
-                title="Create a new account"
+                title={title}
                 width={720}
                 onClose={onClose}
                 visible={visible}

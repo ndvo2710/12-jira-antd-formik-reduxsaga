@@ -227,6 +227,7 @@ export default function ProjectManagement(props) {
                         // dispatch FormEditProject component to reducer
                         const action = {
                             type: OPEN_FORM_EDIT_PROJECT,
+                            title:'Edit Project',
                             Component: <FormEditProject />,
                         }
                         dispatch(action);

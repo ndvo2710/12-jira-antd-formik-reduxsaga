@@ -1,8 +1,8 @@
-import { SET_LIST_PROJECT } from "../constants/TaskFlowConst";
+import { GET_ALL_PROJECT, SET_LIST_PROJECT } from "../constants/TaskFlowConst";
 
 const stateDefault = {
-    projectList: [
-    ]
+    projectList: [],
+    arrProject: []
 
 }
 
@@ -16,6 +16,11 @@ const ProjectManagementReducer = (state = stateDefault, action) => {
             state.projectList = action.projectList;
             console.log("projectList", action.projectList)
             return { ...state };
+        }
+
+        case GET_ALL_PROJECT: {
+            // state.arrProject = action.arrProject;
+            return { ...state, arrProject: action.arrProject }
         }
 
         default: return { ...state }

@@ -27,7 +27,11 @@ class TaskFlowService extends baseService {
 
     updateProject = (projectUpdate) => {
         console.log('Right Before service PUT', projectUpdate)
-        return this.put(`/Project/updateProject?projectId=${projectUpdate.id}`, projectUpdate);
+        return this.put(`Project/updateProject?projectId=${projectUpdate.id}`, projectUpdate);
+    }
+
+    createTask = (taskObject) => {
+        return this.post('Project/createTask',taskObject);
     }
 }
 

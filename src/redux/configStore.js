@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import LoadingReducer from './reducers/LoadingReducer';
 import UserLogInReducer from './reducers/UserLogInReducer';
 import HistoryReducer from './reducers/HistoryReducer';
@@ -6,6 +6,9 @@ import ProjectCategoryReducer from './reducers/ProjectCategoryReducer';
 import ProjectManagementReducer from './reducers/ProjectManagementReducer';
 import DrawerReducer from './reducers/DrawerReducer';
 import ProjectReducer from './reducers/ProjectReducer';
+import PriorityReducer from './reducers/PriorityReducer';
+import TaskTypeReducer from './reducers/TaskTypeReducer';
+import StatusReducer from './reducers/StatusReducer';
 
 // middleware saga
 import createMiddlewareSaga from 'redux-saga';
@@ -20,12 +23,15 @@ const rootReducer = combineReducers({
     ProjectManagementReducer,
     DrawerReducer,
     ProjectReducer,
+    PriorityReducer,
+    TaskTypeReducer,
+    StatusReducer,
 });
 
 const store = createStore(
     rootReducer,
     applyMiddleware(middlewareSaga)
-    );
+);
 
 // Call Saga
 middlewareSaga.run(rootSaga);
