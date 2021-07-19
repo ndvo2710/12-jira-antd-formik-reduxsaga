@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from 'react-redux';
 import { avatar_1 } from '../../assets'
-import { GET_ALL_PRIORITY_SAGA, GET_ALL_STATUS_SAGA } from '../../redux/constants/TaskFlowConst';
+import { GET_ALL_PRIORITY_SAGA, GET_ALL_STATUS_SAGA, UPDATE_STATUS_TASK_SAGA } from '../../redux/constants/TaskFlowConst';
 
 export default function Modal() {
     const { taskDetailModal } = useSelector(state => state.TaskReducer);
@@ -129,7 +129,30 @@ export default function Modal() {
                                 <div className="col-4">
                                     <div className="status">
                                         <h6>STATUS</h6>
-                                        <select className="custom-select" defaultValue={'DEFAULT'} value={taskDetailModal.statusId} onChange={(e) => { }}>
+                                        <select
+                                            className="custom-select"
+                                            defaultValue={'DEFAULT'}
+                                            value={taskDetailModal.statusId}
+                                            onChange={(e) => {
+                                                const action = {
+                                                    type: UPDATE_STATUS_TASK_SAGA,
+                                                    taskUpdateStatus: {
+                                                        taskId: taskDetailModal.taskId,
+                                                        statusId: e.target.value,
+                                                        projectId: taskDetailModal.projectId
+
+                                                    }
+                                                }
+
+                                                // // console.log('action',action);
+                                                console.log('taskupdatestatus', {
+                                                    taskId: taskDetailModal.taskId,
+                                                    statusId: e.target.value
+                                                })
+
+                                                dispatch(action)
+                                            }}
+                                        >
                                             <option value="DEFAULT" disabled>Task Status</option>
                                             {arrStatus.map((status, index) => {
                                                 return <option value={status.statusId} key={index}>{status.statusName}</option>
@@ -181,7 +204,7 @@ export default function Modal() {
                                     </div>
                                     <div className="estimate">
                                         <h6>ORIGINAL ESTIMATE (HOURS)</h6>
-                                        <input type="text" className="estimate-hours" value={taskDetailModal.originalEstimate} />
+                                        <input type="text" className="estimate-hours" value={taskDetailModal.originalEstimate} onChange={(e)=> {}}/>
                                     </div>
                                     <div className="time-tracking">
                                         <h6>TIME TRACKING</h6>

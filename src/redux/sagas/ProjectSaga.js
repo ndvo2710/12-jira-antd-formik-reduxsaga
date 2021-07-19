@@ -150,9 +150,9 @@ function* trackingActionDeleteProject() {
 // Saga to get project detail from API
 function* trackingActionGetProjectDetail() {
     function* getProjectDetailSaga(action) {
-        yield put({
-            type: DISPLAY_LOADING
-        })
+        // yield put({
+        //     type: DISPLAY_LOADING
+        // })
         yield delay(500);
 
         try {

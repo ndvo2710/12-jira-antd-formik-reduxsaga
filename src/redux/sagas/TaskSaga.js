@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { CLOSE_DRAWER, CREATE_TASK_SAGA, GET_TASK_DETAIL, GET_TASK_DETAIL_SAGA } from "../constants/TaskFlowConst";
+import { CLOSE_DRAWER, CREATE_TASK_SAGA, GET_PROJECT_DETAIL, GET_TASK_DETAIL, GET_TASK_DETAIL_SAGA, UPDATE_STATUS_TASK_SAGA } from "../constants/TaskFlowConst";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../constants/LoadingConst";
 import { notifiFunction } from "../../util/notification";
 import { taskFlowService } from "../../services/TaskFlowServices";
@@ -59,9 +59,41 @@ function* trackingActionGetTaskDetail() {
     yield takeLatest(GET_TASK_DETAIL_SAGA, getTaskDetailSaga);
 }
 
+function* trackingActionUpdateTaskStatus() {
+    function* updateTaskStatusSaga(action) {
+        const { taskUpdateStatus } = action;
+        console.log(action)
+        try {
+            const { data, status } = yield call(() => taskFlowService.updateStatusTask(taskUpdateStatus));
+
+            if (status === STATUS_CODE.SUCCESS) {
+                yield put({
+                    type: GET_PROJECT_DETAIL,
+                    projectId: taskUpdateStatus.projectId
+                })
+
+                yield put({
+                    type: GET_TASK_DETAIL_SAGA,
+                    taskId: taskUpdateStatus.taskId
+                })
+            }
+
+
+
+        } catch (err) {
+            console.log(err);
+            console.log(err.response?.data);
+
+        }
+    }
+
+    yield takeLatest(UPDATE_STATUS_TASK_SAGA, updateTaskStatusSaga);
+}
+
 const taskTrackingList = [
     trackingActionCreateTask(),
     trackingActionGetTaskDetail(),
+    trackingActionUpdateTaskStatus(),
 ];
 
 export default taskTrackingList;
