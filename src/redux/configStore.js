@@ -9,6 +9,7 @@ import ProjectReducer from './reducers/ProjectReducer';
 import PriorityReducer from './reducers/PriorityReducer';
 import TaskTypeReducer from './reducers/TaskTypeReducer';
 import StatusReducer from './reducers/StatusReducer';
+import TaskReducer from './reducers/TaskReducer';
 
 // middleware saga
 import createMiddlewareSaga from 'redux-saga';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     PriorityReducer,
     TaskTypeReducer,
     StatusReducer,
+    TaskReducer,
 });
 
 const store = createStore(
