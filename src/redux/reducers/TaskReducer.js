@@ -1,27 +1,28 @@
+import { GET_TASK_DETAIL } from "../constants/TaskFlowConst";
 
 const initialState = {
-    taskDetailModal:  {
+    taskDetailModal: {
         "priorityTask": {
-          "priorityId": 1,
-          "priority": "High"
+            "priorityId": 1,
+            "priority": "High"
         },
         "taskTypeDetail": {
-          "id": 1,
-          "taskType": "bug"
+            "id": 1,
+            "taskType": "bug"
         },
         "assigness": [
-          {
-            "id": 40,
-            "avatar": "https://ui-avatars.com/api/?name=crystal",
-            "name": "crystal",
-            "alias": "crystal"
-          },
-          {
-            "id": 41,
-            "avatar": "https://ui-avatars.com/api/?name=kevin",
-            "name": "kevin",
-            "alias": "kevin"
-          }
+            {
+                "id": 40,
+                "avatar": "https://ui-avatars.com/api/?name=crystal",
+                "name": "crystal",
+                "alias": "crystal"
+            },
+            {
+                "id": 41,
+                "avatar": "https://ui-avatars.com/api/?name=kevin",
+                "name": "kevin",
+                "alias": "kevin"
+            }
         ],
         "lstComment": [],
         "taskId": 41,
@@ -32,19 +33,20 @@ const initialState = {
         "originalEstimate": 10,
         "timeTrackingSpent": 10,
         "timeTrackingRemaining": 10
-      }
+    }
 }
 
 
 
 
-const TaskReducer = (state = initialState,action) => {
+const TaskReducer = (state = initialState, action) => {
     switch (action.type) {
+        case GET_TASK_DETAIL: {
+            return { ...state, taskDetailModal: action.taskDetailModal }
+        }
 
-
-
-    default:
-        return state
+        default:
+            return state
     }
 }
 

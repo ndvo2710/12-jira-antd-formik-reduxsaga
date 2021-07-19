@@ -143,8 +143,6 @@ export default function Modal() {
                                             {
                                                 taskDetailModal.assigness.map((user, index) => {
                                                     return <div key={index} style={{ display: 'flex' }} className="item">
-
-
                                                         <div className="avatar">
                                                             <img src={user.avatar} alt={user.avatar} />
                                                         </div>

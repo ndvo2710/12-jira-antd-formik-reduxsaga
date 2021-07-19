@@ -1,5 +1,4 @@
-import Axios from "axios"
-import { ACCESS_TOKEN_LC_KEY, DOMAIN_TASKFLOW } from "../util/constants/settingSystem";
+import { ACCESS_TOKEN_LC_KEY} from "../util/constants/settingSystem";
 import baseService from "./base";
 
 class TaskFlowService extends baseService {
@@ -32,6 +31,10 @@ class TaskFlowService extends baseService {
 
     createTask = (taskObject) => {
         return this.post('Project/createTask',taskObject);
+    }
+
+    getTaskDetail = (taskId) => {
+        return this.get(`Project/getTaskDetail?taskId=${taskId}`)
     }
 }
 

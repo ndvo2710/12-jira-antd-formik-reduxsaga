@@ -1,8 +1,11 @@
 import React from 'react';
-import { avatar_1, avatar_2 } from '../../../assets/index';
+import { useDispatch } from 'react-redux';
+import { GET_TASK_DETAIL_SAGA } from '../../../redux/constants/TaskFlowConst';
 
 export default function Content(props) {
     const { projectDetail } = props;
+    const dispatch = useDispatch();
+
     const renderCardTaskList = () => {
         return projectDetail.lstTask?.map((taskListDetail, index) => {
             return <div key={index} className="card pb-2" style={{ width: '17rem', height: 'auto' }}>
@@ -11,7 +14,16 @@ export default function Content(props) {
                 </div>
                 <ul className="list-group list-group-flush">
                     {taskListDetail.lstTaskDeTail.map((task, index) => {
-                        return <li key={index} className="list-group-item" data-toggle="modal" data-target="#infoModal" style={{ cursor: 'pointer' }}>
+                        return <li
+                            key={index}
+                            className="list-group-item"
+                            data-toggle="modal"
+                            data-target="#infoModal"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                dispatch({ type: GET_TASK_DETAIL_SAGA, taskId: task.taskId });
+                            }}
+                        >
                             <p className="font-weight-300">
                                 {task.taskName}
                             </p>
