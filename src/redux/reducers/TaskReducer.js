@@ -1,4 +1,4 @@
-import { CHANGE_TASK_MODAL, GET_TASK_DETAIL } from "../constants/TaskFlowConst";
+import { CHANGE_ASSIGNESS, CHANGE_TASK_MODAL, GET_TASK_DETAIL, REMOVE_USER_ASSIGN } from "../constants/TaskFlowConst";
 
 const initialState = {
     taskDetailModal: {
@@ -56,6 +56,16 @@ const TaskReducer = (state = initialState, action) => {
             // console.log('temp', temp);
             // console.log('state.taskDetailModal', state.taskDetailModal);
             // return {...temp};
+        }
+        case CHANGE_ASSIGNESS: {
+            state.taskDetailModal.assigness = [...state.taskDetailModal.assigness, action.userSelected];
+            // console.log('state',state)
+            return { ...state }
+        }
+
+        case REMOVE_USER_ASSIGN: {
+            state.taskDetailModal.assigness = [...state.taskDetailModal.assigness.filter(us => us.id !== action.userId)]
+            return { ...state }
         }
 
         default:
