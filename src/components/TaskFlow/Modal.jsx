@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from 'react-redux';
 import { avatar_1 } from '../../assets'
 import { CHANGE_TASK_MODAL, GET_ALL_PRIORITY_SAGA, GET_ALL_STATUS_SAGA, GET_ALL_TASK_TYPE_SAGA, UPDATE_STATUS_TASK_SAGA } from '../../redux/constants/TaskFlowConst';
+import { Editor } from '@tinymce/tinymce-react';
+
 
 export default function Modal() {
     const { taskDetailModal } = useSelector(state => state.TaskReducer);
@@ -11,6 +13,10 @@ export default function Modal() {
     const { arrTaskType } = useSelector(state => state.TaskTypeReducer);
 
     const dispatch = useDispatch();
+
+    const [visibleEditor, setVisibleEditor] = useState(false);
+    const [historyContent, setHistoryContent] = useState(taskDetailModal.description);
+    const [content, setContent] = useState(taskDetailModal.description);
 
     useEffect(() => {
         dispatch({ type: GET_ALL_STATUS_SAGA });
@@ -24,7 +30,54 @@ export default function Modal() {
 
     const renderDescription = () => {
         const jsxDescription = ReactHtmlParser(taskDetailModal.description);
-        return jsxDescription;
+        return <div>
+            {visibleEditor ? <div> <Editor
+                name="description"
+                initialValue={taskDetailModal.description}
+                init={{
+                    selector: 'textarea#myTextArea',
+                    height: 500,
+                    menubar: false,
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar:
+                        'undo redo | formatselect | bold italic backcolor | \
+                            alignleft aligncenter alignright alignjustify | \
+                            bullist numlist outdent indent | removeformat | help'
+                }}
+                onEditorChange={(content, editor) => {
+                    setContent(content);
+                }}
+            />
+
+                <button className="btn btn-primary m-2" onClick={() => {
+                    dispatch({
+                        type: CHANGE_TASK_MODAL,
+                        name: 'description',
+                        value: content
+                    })
+                    setVisibleEditor(false);
+                }}>Save</button>
+                <button className="btn btn-primary m-2" onClick={() => {
+                    dispatch({
+                        type: CHANGE_TASK_MODAL,
+                        name: 'description',
+                        value: historyContent
+                    })
+                    setVisibleEditor(false)
+                }}>Close</button>
+            </div> : <div onClick={() => {
+
+                setHistoryContent(taskDetailModal.description);
+                setVisibleEditor(!visibleEditor);
+
+            }}>{jsxDescription}</div>}
+
+
+        </div>
     }
 
     const handleChange = (e) => {
