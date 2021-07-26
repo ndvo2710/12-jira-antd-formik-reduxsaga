@@ -83,7 +83,9 @@ function* trackingActionGetUser() {
 function* trackingActionAddUserProject() {
     function* addUserProjectSaga(action) {
         try {
+            console.log('action.userProject', action.userProject);
             const { data, status } = yield call(() => userService.assignUserProject(action.userProject));
+            console.log('data', data);
 
             yield put({
                 type: GET_LIST_PROJECT_SAGA

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from 'react-redux';
 import { avatar_1 } from '../../assets'
-import { CHANGE_ASSIGNESS, CHANGE_TASK_MODAL, GET_ALL_PRIORITY_SAGA, GET_ALL_STATUS_SAGA, GET_ALL_TASK_TYPE_SAGA, REMOVE_USER_ASSIGN, UPDATE_STATUS_TASK_SAGA } from '../../redux/constants/TaskFlowConst';
+import { CHANGE_ASSIGNESS, CHANGE_TASK_MODAL, GET_ALL_PRIORITY_SAGA, GET_ALL_STATUS_SAGA, GET_ALL_TASK_TYPE_SAGA, HANDLE_CHANGE_POST_API_SAGA, REMOVE_USER_ASSIGN, UPDATE_STATUS_TASK_SAGA } from '../../redux/constants/TaskFlowConst';
 import { Editor } from '@tinymce/tinymce-react';
 import { Select } from 'antd';
 
@@ -57,7 +57,8 @@ export default function Modal() {
 
                 <button className="btn btn-primary m-2" onClick={() => {
                     dispatch({
-                        type: CHANGE_TASK_MODAL,
+                        type: HANDLE_CHANGE_POST_API_SAGA,
+                        actionType: CHANGE_TASK_MODAL,
                         name: 'description',
                         value: content
                     })
@@ -65,7 +66,8 @@ export default function Modal() {
                 }}>Save</button>
                 <button className="btn btn-primary m-2" onClick={() => {
                     dispatch({
-                        type: CHANGE_TASK_MODAL,
+                        type: HANDLE_CHANGE_POST_API_SAGA,
+                        actionType: CHANGE_TASK_MODAL,
                         name: 'description',
                         value: historyContent
                     })
@@ -85,7 +87,8 @@ export default function Modal() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         dispatch({
-            type: CHANGE_TASK_MODAL,
+            type: HANDLE_CHANGE_POST_API_SAGA,
+            actionType: CHANGE_TASK_MODAL,
             name,
             value
         })
@@ -249,7 +252,7 @@ export default function Modal() {
                                         <h6>ASSIGNEES</h6>
                                         <div className="row">
                                             {
-                                                taskDetailModal.assigness.map((user, index) => {
+                                                taskDetailModal.assigness?.map((user, index) => {
                                                     return <div className="col-6  mt-2 mb-2">
                                                         <div key={index} style={{ display: 'flex' }} className="item">
 
@@ -261,7 +264,8 @@ export default function Modal() {
                                                                 {user.name}
                                                                 <i className="fa fa-times" style={{ marginLeft: 5, cursor: 'pointer' }} onClick={() => {
                                                                     dispatch({
-                                                                        type: REMOVE_USER_ASSIGN,
+                                                                        type: HANDLE_CHANGE_POST_API_SAGA,
+                                                                        actionType: REMOVE_USER_ASSIGN,
                                                                         userId: user.id
                                                                     })
                                                                 }} />
@@ -294,9 +298,10 @@ export default function Modal() {
                                                         }
                                                         let userSelected = projectDetail.members.find(mem => mem.userId === value);
                                                         userSelected = { ...userSelected, id: userSelected.userId };
-                                                        //dispatchReducer
+
                                                         dispatch({
-                                                            type: CHANGE_ASSIGNESS,
+                                                            type: HANDLE_CHANGE_POST_API_SAGA,
+                                                            actionType: CHANGE_ASSIGNESS,
                                                             userSelected
                                                         })
                                                     }}>

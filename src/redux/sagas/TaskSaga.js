@@ -1,5 +1,5 @@
-import { call, put, takeLatest } from "redux-saga/effects";
-import { CLOSE_DRAWER, CREATE_TASK_SAGA, GET_PROJECT_DETAIL, GET_TASK_DETAIL, GET_TASK_DETAIL_SAGA, UPDATE_STATUS_TASK_SAGA } from "../constants/TaskFlowConst";
+import { call, put, select, takeLatest } from "redux-saga/effects";
+import { CHANGE_ASSIGNESS, CHANGE_TASK_MODAL, CLOSE_DRAWER, CREATE_TASK_SAGA, GET_PROJECT_DETAIL, GET_TASK_DETAIL, GET_TASK_DETAIL_SAGA, HANDLE_CHANGE_POST_API_SAGA, REMOVE_USER_ASSIGN, UPDATE_STATUS_TASK_SAGA, UPDATE_TASK_SAGA } from "../constants/TaskFlowConst";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../constants/LoadingConst";
 import { notifiFunction } from "../../util/notification";
 import { taskFlowService } from "../../services/TaskFlowServices";
@@ -90,10 +90,96 @@ function* trackingActionUpdateTaskStatus() {
     yield takeLatest(UPDATE_STATUS_TASK_SAGA, updateTaskStatusSaga);
 }
 
+function* trackingActionUpdateTask() {
+    function* updateTaskSaga(action) {
+
+    }
+
+    yield takeLatest(UPDATE_TASK_SAGA, updateTaskSaga);
+}
+
+
+
+function* trackingActionHandlePostApi() {
+    function* handlePostApiSaga(action) {
+        // console.log('abc', action)
+        // Call action to update taskDetailModal
+        switch (action.actionType) {
+            case CHANGE_TASK_MODAL: {
+                const { value, name } = action;
+
+                yield put({
+                    type: CHANGE_TASK_MODAL,
+                    name,
+                    value
+                });
+                break;
+            }
+            case CHANGE_ASSIGNESS: {
+                const { userSelected } = action;
+                yield put({
+                    type: CHANGE_ASSIGNESS,
+                    userSelected
+                });
+                break;
+
+            }
+            case REMOVE_USER_ASSIGN: {
+                const { userId } = action;
+                yield put({
+                    type: REMOVE_USER_ASSIGN,
+                    userId
+                })
+                break;
+            }
+            default: {
+                console.log('doing nothing');
+                break;
+            }
+        }
+
+        // Save through api updateTaskSaga
+        // Get data from state.taskDetailModal 
+        let { taskDetailModal } = yield select(state => state.TaskReducer);
+        console.log('taskDetailModal after update', taskDetailModal)
+        // Transform state.taskDetailModal to feed api
+
+        const listUserAsign = taskDetailModal.assigness?.map((user, index) => {
+            return user.id;
+        });
+
+
+        const taskUpdateApi = { ...taskDetailModal, listUserAsign }
+        try {
+            const { data, status } = yield call(() => taskFlowService.updateTask(taskUpdateApi));
+
+            if (status === STATUS_CODE.SUCCESS) {
+                yield put({
+                    type: GET_PROJECT_DETAIL,
+                    projectId: taskUpdateApi.projectId
+                })
+
+                yield put({
+                    type: GET_TASK_DETAIL_SAGA,
+                    taskId: taskUpdateApi.taskId
+                })
+            }
+        } catch (err) {
+            console.log(err.response?.data);
+            console.log(err);
+        }
+    }
+
+    yield takeLatest(HANDLE_CHANGE_POST_API_SAGA, handlePostApiSaga);
+}
+
+
 const taskTrackingList = [
     trackingActionCreateTask(),
     trackingActionGetTaskDetail(),
     trackingActionUpdateTaskStatus(),
+    trackingActionUpdateTask(),
+    trackingActionHandlePostApi(),
 ];
 
 export default taskTrackingList;
